@@ -21,6 +21,11 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+import URL from '../constants/url';
+import { SET_GUILDS } from '../constants/mutation';
+
 export default {
   authenticated: true,
   computed: {
@@ -34,11 +39,23 @@ export default {
       this.$logout('/');
     }
   },
+  async fetch({ store, error }) {
+    const userId = store.state.discord.user.id;
+
+    const guilds = await axios.get(URL.USER_GUILDS, {
+      params: { user: userId }
+    }).then(res => res.data)
+      .catch(() => undefined);
+
+    store.commit(SET_GUILDS, guilds);
+  }
 }
 </script>
 
 <style>
-
-
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
 </style>
 

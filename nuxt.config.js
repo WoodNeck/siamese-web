@@ -17,7 +17,6 @@ module.exports = {
     ],
   },
   css: [
-    { src: 'bulma/bulma.sass', lang: 'sass' },
     'assets/main.css',
   ],
   loading: { color: '#3B8070' },
@@ -33,7 +32,7 @@ module.exports = {
       }
     }
   },
-  modules: ['nuxt-oauth', '@nuxtjs/axios'],
+  modules: ['nuxt-oauth', '@nuxtjs/axios', 'nuxt-buefy'],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,
