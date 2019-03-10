@@ -1,34 +1,45 @@
 <template>
   <section class="container">
     <div>
-      <app-logo/>
+      <img class="app-logo" src="../static/Siamese.png" />
       <h1 class="title">
-        siamese-web
+        샴고양이
       </h1>
-      <h2 class="subtitle">
-        Website for Discord bot Siamese
-      </h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
+        <a v-if="!loggedIn"
           target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
+          class="button--green"
+          @click="login">Login with Discord</a>
+        <a v-else
           target="_blank"
-          class="button--grey">GitHub</a>
+          class="button--green"
+          @click="logout">Logout</a>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
-
 export default {
-  components: {
-    AppLogo
-  }
+  computed: {
+    loggedIn() {
+      return this.$store.state.discord && this.$store.state.discord.accessToken;
+    },
+  },
+  mounted() {
+    if (this.$store.state.discord.accessToken && !this.$store.state.discord.user) {
+      // Couldn't get user information
+      this.$logout();
+    }
+  },
+  methods: {
+    login() {
+      this.$login();
+    },
+    logout() {
+      this.$logout();
+    }
+  },
 }
 </script>
 
@@ -60,6 +71,11 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.app-logo {
+  width: 40%;
+  height: 40%;
 }
 </style>
 
