@@ -13,9 +13,13 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Website for Discord bot Siamese' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
   },
+  css: [
+    { src: 'bulma/bulma.sass', lang: 'sass' },
+    'assets/main.css',
+  ],
   loading: { color: '#3B8070' },
   build: {
     extend (config, { isDev, isClient }) {
