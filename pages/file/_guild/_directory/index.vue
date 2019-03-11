@@ -1,20 +1,20 @@
 <template>
 <div>
   <div class="menu"
-    @click="toggleModal">
+    @click="toggleMkModal">
     <span class="is-size-5 button is-primary is-inverted">+</span>
   </div>
 
   <div v-for="(image, idx) in directory.images" :key="idx">
-    {{ image.url }}
+    <img :src="image.url" />
   </div>
 
-  <div ref="modal" class="modal">
+  <div ref="mkModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">이미지 업로드</p>
-        <button class="delete" @click="toggleModal" aria-label="close"></button>
+        <button class="delete" @click="toggleMkModal" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <b-field class="has-text-centered">
@@ -37,7 +37,11 @@
 </template>
 
 <script>
+import qs from 'qs';
+import { MKIMG, RMIMG } from '../../../../constants/mutation';
+
 export default {
+  middleware: 'checkDirPermission',
   data() {
     return {
       dropFiles: [],
@@ -52,17 +56,95 @@ export default {
     },
   },
   methods: {
-    toggleModal: function() {
-      this.$refs.modal.classList.toggle('is-active');
+    toggleMkModal: function() {
+      this.$refs.mkModal.classList.toggle('is-active');
     },
     onUpload: async function(files) {
-      console.log("UPLOAD", files);
+      const dirName = this.$route.params.directory;
+      if (!files.length) {
+        this.$toast.open({
+          duration: 2000,
+          message: '파일이 하나도 없다냥!',
+          position: 'is-bottom',
+          type: 'is-danger'
+        });
+        return;
+      }
 
-      const uploadFile = await this.$axios.$post('/api/uploadImage', {
-        directory: this.$route.params.directory,
-        guildId: this.$route.params.guild,
-        files,
+      const MAX_FILE_SIZE = 10 * 1024 * 1024;
+      for (const file of files) {
+        if (file.size > MAX_FILE_SIZE) {
+          this.$toast.open({
+            duration: 2000,
+            message: `${file.name}의 크기가 너무 크다냥! 10MB 미만으로 해달라냥!`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          });
+        }
+      }
+
+      function getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+
+      const readFiles = [];
+      files.forEach(file => {
+        readFiles.push(getBase64(file));
       });
+
+      const base64Files = await Promise.all(readFiles);
+
+      const formData = new FormData();
+
+      base64Files.forEach((file, idx) => {
+        // Delete data:image/png;base64,
+        formData.append(`${idx}`, file.substring(22));
+      })
+
+      formData.append("directory", this.$route.params.directory);
+      formData.append("guildId", this.$route.params.guild);
+
+      const results = await this.$axios.$post('/api/image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      }).then(result => result)
+        .catch(() => null);
+
+      if (!results) {
+        this.$toast.open({
+          duration: 2000,
+          message: `이미지 업로드에 실패했다냥!`,
+          position: 'is-bottom',
+          type: 'is-danger'
+        });
+        return;
+      }
+
+      this.$store.commit(MKIMG, {
+        guildId: this.$route.params.guild,
+        dirName,
+        images: results.filter(result => result),
+      });
+
+      const fails = results.filter(result => !result);
+      if (fails.length) {
+        this.$toast.open({
+          duration: 2000,
+          message: `${fails.length}개의 이미지 업로드에 실패했다냥!`,
+          position: 'is-bottom',
+          type: 'is-danger'
+        });
+      }
+
+      // clear files
+      this.dropFiles = [];
+      this.toggleMkModal();
     }
   }
 }

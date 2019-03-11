@@ -21,7 +21,12 @@ export const mutations = {
     const directories = state.guilds[guildIndex].directories;
     const dirIndex = directories.findIndex(dir => dir.name === dirName);
     directories.splice(dirIndex, 1);
-  }
+  },
+  [MUTATION.MKIMG] (state, { guildId, dirName, images }) {
+    const guild = state.guilds.find(guild => guild.id === guildId);
+    const directory = guild.directories.find(dir => dir.name === dirName);
+    directory.images.push(...images);
+  },
 };
 
 export const actions = {

@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const imageSchema = new mongoose.Schema({
-	url: String,
+  id: String,
+  size: Number,
+  url: String,
+  deletehash: String,
 });
 
 const dirSchema = new mongoose.Schema({
