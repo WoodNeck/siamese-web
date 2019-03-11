@@ -32,6 +32,7 @@ module.exports = {
       }
     }
   },
+  serverMiddleware: ['~/api/index.js'],
   modules: ['nuxt-oauth', '@nuxtjs/axios', 'nuxt-buefy'],
   oauth: {
     sessionName: 'discord-session',

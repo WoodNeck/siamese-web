@@ -5,9 +5,6 @@
 </template>
 
 <script>
-import { MKDIR } from '../../constants/mutation';
-
-
 export default {
 
 }

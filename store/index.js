@@ -12,14 +12,15 @@ export const mutations = {
   [MUTATION.SET_GUILDS] (state, guilds) {
     state.guilds = guilds;
   },
-  [MUTATION.MKDIR] (state, updatingGuild, directory) {
-    console.log(updatingGuild, directory);
+  [MUTATION.MKDIR] (state, { updatingGuild, directory }) {
     const guildIndex = state.guilds.findIndex(guild => guild === updatingGuild);
     state.guilds[guildIndex].directories.push(directory);
   },
-  [MUTATION.RMDIR] (state, updatingGuild, index) {
+  [MUTATION.RMDIR] (state, { updatingGuild, dirName }) {
     const guildIndex = state.guilds.findIndex(guild => guild === updatingGuild);
-    state.guilds[guildIndex].directories.splice(index, 1);
+    const directories = state.guilds[guildIndex].directories;
+    const dirIndex = directories.findIndex(dir => dir.name === dirName);
+    directories.splice(dirIndex, 1);
   }
 };
 
