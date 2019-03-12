@@ -108,7 +108,8 @@ computed: {
         });
         return;
       }
-      if (dirName.indexOf(' ' >= 0)) {
+
+      if (dirName.indexOf(' ') >= 0) {
         dirInput.classList.add('is-danger');
         this.$toast.open({
           duration: 2000,
