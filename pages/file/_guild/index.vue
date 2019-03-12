@@ -5,7 +5,7 @@
       @click="toggleMkModal"
       class="is-size-5 button is-primary is-inverted">+</span>
   </div>
-  <div v-if="directories.length > 0">
+  <div v-if="directories && directories.length > 0">
     <div class="folder-wrapper" v-for="directory in directories" :key="directory.name">
       <nuxt-link :to="`/file/${guild.id}/${directory.name}`" class="box">
         <div class="media has-text-black">

@@ -1,24 +1,19 @@
 import qs from 'qs';
+import cors from 'cors';
 import axios from 'axios';
 import express from 'express';
 import bodyParser from 'body-parser';
 import formidable from 'formidable';
-import FormData from 'form-data';
 import connectDB from '../assets/connectDB';
 import Directory from '../models/directory';
 
 const app = express();
 
-// CORS
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.options('*', cors())
 
 app.post('/dir', async (req, res) => {
   const db = await connectDB();
