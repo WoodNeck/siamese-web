@@ -65,6 +65,7 @@ app.post('/image', async (req, res) => {
 
   form.parse(req, async (err, fields, files) => {
     try {
+      const author = fields.author;
       const dirName = fields.directory;
       const guildId = fields.guildId;
       const directory = await Directory.findOne(
@@ -72,7 +73,6 @@ app.post('/image', async (req, res) => {
       ).exec();
 
       const sendImageToImgur = async file => {
-
         const data = qs.stringify({
           image: file,
           type: 'base64',
@@ -97,23 +97,24 @@ app.post('/image', async (req, res) => {
       }
       const uploadResults = await Promise.all(uploadFiles);
 
-      const results = uploadResults.map(result => {
+      const results = uploadResults.map((result, idx) => {
         if (!result) return null;
 
-        console.log(result);
+        const fileName = fields[`${idx}-name`];
+        if (!fileName) return null;
 
         const image = {
           id: result.id,
+          name: fileName,
           size: result.size,
           url: result.link,
           deletehash: result.deletehash,
+          author,
         }
 
         directory.images.push(image);
         return image;
       });
-
-      console.log(results);
 
       directory.save();
 
@@ -123,7 +124,46 @@ app.post('/image', async (req, res) => {
       res.sendStatus(500);
     }
   });
+});
 
+app.delete('/image', async (req, res) => {
+  const db = await connectDB();
+  if (!db) {
+    res.sendStatus(500);
+    return;
+  }
+
+  const params = req.body;
+
+  const directory = await Directory.findOne(
+    { name: params.dirName, guildId: params.guildId },
+  ).exec();
+
+  const imgIndex = directory.images.findIndex(image => image.id === params.imgId);
+  directory.images.splice(imgIndex, 1);
+  directory.save()
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500));
+});
+
+app.patch('/image', async (req, res) => {
+  const db = await connectDB();
+  if (!db) {
+    res.sendStatus(500);
+    return;
+  }
+
+  const params = req.body;
+
+  const directory = await Directory.findOne(
+    { name: params.dirName, guildId: params.guildId },
+  ).exec();
+
+  const image = directory.images.find(image => image.id === params.imgId);
+  image.name = params.newName;
+  directory.save()
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500));
 });
 
 // export the server middleware

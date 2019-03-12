@@ -14,7 +14,10 @@
           </figure>
           <div class="media-content">
             <div class="content is-size-3-desktop">
-              <p>{{ directory.name }}</p>
+              <p class="text-wrapper">
+                <span>{{ directory.name }}</span>
+                <span class="is-right">{{ directory.images.length }}</span>
+              </p>
             </div>
           </div>
           <div class="media-right">
@@ -92,7 +95,7 @@ computed: {
     },
     mkdir: async function() {
       const dirInput = this.$refs.dirInput;
-      const dirName = dirInput.value;
+      const dirName = dirInput.value.trim();
       const directories = this.guild.directories;
 
       if (!dirName) {
@@ -100,6 +103,16 @@ computed: {
         this.$toast.open({
           duration: 2000,
           message: '폴더 이름을 입력해달라냥!',
+          position: 'is-bottom',
+          type: 'is-danger'
+        });
+        return;
+      }
+      if (dirName.indexOf(' ' >= 0)) {
+        dirInput.classList.add('is-danger');
+        this.$toast.open({
+          duration: 2000,
+          message: '폴더 이름엔 공백이 포함될 수 없다냥!',
           position: 'is-bottom',
           type: 'is-danger'
         });
@@ -196,6 +209,13 @@ computed: {
 }
 .folder-wrapper {
   margin: 0.3rem;
+}
+.text-wrapper {
+  position: relative;
+}
+.is-right {
+  position: absolute;
+  right: 0;
 }
 </style>
 
