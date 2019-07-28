@@ -17,8 +17,11 @@ module.exports = {
     ],
   },
   css: [
-    'assets/main.css',
+    '~/static/common.css'
   ],
+  env: {
+    im: process.env.IMGUR_CLIENT_ID,
+  },
   loading: { color: '#3B8070' },
   build: {
     extend (config, { isDev, isClient }) {
@@ -32,8 +35,24 @@ module.exports = {
       }
     }
   },
-  serverMiddleware: ['~/api/index.js'],
-  modules: ['nuxt-oauth', '@nuxtjs/axios', 'nuxt-buefy'],
+  plugins: ['~/plugins/helper'],
+  modules: [
+    'nuxt-oauth',
+    '@nuxtjs/axios',
+    [
+      'vue-sweetalert2/nuxt'
+    ],
+    ['nuxt-fontawesome', {
+      component: 'fa',
+      imports: [
+        //import whole set
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['fas']
+        }
+      ]
+    }]
+  ],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,
@@ -53,5 +72,9 @@ module.exports = {
         .catch(() => undefined);
     }
   },
+  axios: {
+    https: false,
+    port: 4260,
+  }
 }
 

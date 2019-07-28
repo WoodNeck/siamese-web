@@ -1,47 +1,88 @@
 import * as MUTATION from '../constants/mutation';
+import * as ACTION from '../constants/action';
+import URL from '../constants/url';
 
 export const state = () => ({
   guilds: [],
+  directories: [],
+  directory: {},
+  images: [],
+  im: '',
 });
 
 export const getters = {
+  user: state => state.discord && state.discord.user,
+  userId: state => state.discord && state.discord.user && state.discord.user.id,
   guilds: state => state.guilds,
+  directories: state => state.directories,
+  images: state => state.images,
+  directory: state => state.directory,
+  logged: state => {
+    return state.discord && state.discord.accessToken && state.discord.user != null;
+  }
 }
 
 export const mutations = {
   [MUTATION.SET_GUILDS] (state, guilds) {
     state.guilds = guilds;
   },
-  [MUTATION.MKDIR] (state, { updatingGuild, directory }) {
-    const guildIndex = state.guilds.findIndex(guild => guild === updatingGuild);
-    state.guilds[guildIndex].directories.push(directory);
+  [MUTATION.SET_DIRECTORIES] (state, directories) {
+    state.directories = directories;
   },
-  [MUTATION.RMDIR] (state, { updatingGuild, dirName }) {
-    const guildIndex = state.guilds.findIndex(guild => guild === updatingGuild);
-    const directories = state.guilds[guildIndex].directories;
-    const dirIndex = directories.findIndex(dir => dir.name === dirName);
-    directories.splice(dirIndex, 1);
+  [MUTATION.SET_IMAGES] (state, images) {
+    state.images = images;
   },
-  [MUTATION.MKIMG] (state, { guildId, dirName, images }) {
-    const guild = state.guilds.find(guild => guild.id === guildId);
-    const directory = guild.directories.find(dir => dir.name === dirName);
-    directory.images.push(...images);
+  [MUTATION.SET_DIRECTORY] (state, directory) {
+    state.directory = directory;
   },
-  [MUTATION.RMIMG] (state, { guildId, dirName, imgId}) {
-    const guild = state.guilds.find(guild => guild.id === guildId);
-    const directory = guild.directories.find(dir => dir.name === dirName);
-    const imageIndex = directory.images.findIndex(image => image.id === imgId);
-    directory.images.splice(imageIndex, 1);
+  [MUTATION.RESET_DIRECTORIES] (state) {
+    state.directories = [];
   },
-  [MUTATION.RENAME_IMG] (state, { guildId, dirName, imgId, newName }) {
-    const guild = state.guilds.find(guild => guild.id === guildId);
-    const directory = guild.directories.find(dir => dir.name === dirName);
-    const image = directory.images.find(image => image.id === imgId);
-    image.name = newName;
+  [MUTATION.RESET_DIRECTORY] (state) {
+    state.directory = {};
+  },
+  [MUTATION.RESET_IMAGES] (state) {
+    state.images = [];
+  },
+  'SET_IM': (state, im) => {
+    state.im = im;
   }
 };
 
 export const actions = {
+  nuxtServerInit ({ commit }, { req, env }) {
+    commit('SET_IM', env.im);
+  },
+  async [ACTION.FETCH_GUILD] ({ commit, getters }) {
+    const userId = getters.userId;
+    const guilds = await this.$axios.$get(URL.GUILDS, {
+      params: { id: userId }
+    });
 
+    commit(MUTATION.SET_GUILDS, guilds);
+  },
+  async [ACTION.UPDATE_GUILD] ({ commit }) {
+    const guildId = this.$router.currentRoute.params.guild;
+
+    this.$axios.$get(URL.DIRECTORIES, {
+      params: { id: guildId }
+    }).then(directories => {
+      commit(MUTATION.SET_DIRECTORIES, directories);
+    });
+
+    this.$axios.$get(URL.IMAGES, {
+      params: { id: guildId }
+    }).then(images => {
+      commit(MUTATION.SET_IMAGES, images);
+    });
+  },
+  async [ACTION.UPDATE_DIRECTORY] ({ commit }) {
+    const directoryId = this.$router.currentRoute.params.directory;
+
+    const directory = await this.$axios.$get(URL.DIRECTORY, {
+      params: { id: directoryId }
+    });
+    commit(MUTATION.SET_DIRECTORY, directory);
+  }
 };
 

@@ -1,31 +1,36 @@
 <template>
-  <div class="has-background-primary">
+  <div id="app">
     <nuxt/>
   </div>
 </template>
 
 <style>
-@font-face {
- font-family: 'neodgm';
- src: url('../static/fonts/neodgm.ttf');
- font-weight: normal;
- font-style: normal;
-}
-
-html {
-  font-family: "neodgm", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+  body {
+    font-family: Whitney, "Apple SD Gothic Neo", NanumBarunGothic, "맑은 고딕", "Malgun Gothic", Gulim, 굴림, Dotum, 돋움, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1;
+    margin: 0; padding: 0; border: 0;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: transparent;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
+  #app {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: -webkit-flex;
+    display:-ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #202225;
+  }
 </style>
 

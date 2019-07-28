@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Whitney';
+  src: url(/Whitney-Medium.ttf);
+}
+
+.swal2-title {
+  font-size: 1.875rem !important;
+  word-break: keep-all;
+}
+.swal2-toast .swal2-title {
+  white-space: nowrap;
+  font-size: 1em !important;
+}
+@media screen and (max-width: 400px) {
+  .swal2-title {
+    font-size: 1.0rem !important;
+  }
+  .swal2-toast .swal2-title {
+    font-size: 0.6rem !important;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 740px) {
+  .swal2-title {
+    font-size: 1.3rem !important;
+  }
+  .swal2-toast .swal2-title {
+    font-size: 0.8rem !important;
+  }
+}
+
+.swal2-image {
+  max-width: 50% !important;
+}

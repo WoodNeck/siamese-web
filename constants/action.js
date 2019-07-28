@@ -1,0 +1,4 @@
+export const FETCH_GUILD = 'FETCH_GUILD';
+export const UPDATE_GUILD = 'UPDATE_GUILD';
+export const UPDATE_DIRECTORY = 'UPDATE_DIRECTORY';
+
