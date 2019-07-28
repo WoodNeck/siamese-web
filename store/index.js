@@ -6,6 +6,9 @@ export const state = () => ({
 
 export const getters = {
   guilds: state => state.guilds,
+  logged: state => {
+    return state.discord && state.discord.accessToken && state.discord.user != null;
+  }
 }
 
 export const mutations = {

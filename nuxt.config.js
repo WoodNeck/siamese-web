@@ -16,9 +16,6 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
   },
-  css: [
-    'assets/main.css',
-  ],
   loading: { color: '#3B8070' },
   build: {
     extend (config, { isDev, isClient }) {
@@ -32,8 +29,8 @@ module.exports = {
       }
     }
   },
-  serverMiddleware: ['~/api/index.js'],
-  modules: ['nuxt-oauth', '@nuxtjs/axios', 'nuxt-buefy'],
+  plugins: [ { src: './plugins/slide-menu', ssr: false }],
+  modules: ['nuxt-oauth'],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,
