@@ -29,8 +29,7 @@ module.exports = {
       }
     }
   },
-  plugins: [ { src: './plugins/slide-menu', ssr: false }],
-  modules: ['nuxt-oauth'],
+  modules: ['nuxt-oauth', '@nuxtjs/axios'],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,
@@ -50,5 +49,9 @@ module.exports = {
         .catch(() => undefined);
     }
   },
+  axios: {
+    https: true,
+    port: 4260
+  }
 }
 

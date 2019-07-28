@@ -5,6 +5,7 @@ export const state = () => ({
 });
 
 export const getters = {
+  userId: state => state.discord && state.discord.user && state.discord.user.id,
   guilds: state => state.guilds,
   logged: state => {
     return state.discord && state.discord.accessToken && state.discord.user != null;
