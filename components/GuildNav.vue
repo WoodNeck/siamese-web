@@ -82,7 +82,7 @@ export default {
     -ms-flex-pack: center;
     justify-content: center;
   }
-  .guild-home:hover {
+  .selected .guild-home {
     background-color: #7289da;
     -webkit-transition: background-color .15s ease-out, color .15s ease-out, border-radius .15s;
     transition: background-color .15s ease-out, color .15s ease-out, border-radius .15s;
@@ -99,7 +99,7 @@ export default {
     -webkit-user-select: none;
     -ms-user-select: none;
   }
-  .guild-image:hover {
+  .selected .guild-image {
     border-radius: 12px;
   }
   .guild-separator {

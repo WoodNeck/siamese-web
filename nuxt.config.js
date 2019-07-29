@@ -29,7 +29,7 @@ module.exports = {
       }
     }
   },
-  modules: ['nuxt-oauth', '@nuxtjs/axios'],
+  modules: ['nuxt-oauth', '@nuxtjs/axios', 'vue-sweetalert2/nuxt'],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,

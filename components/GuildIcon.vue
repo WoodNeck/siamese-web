@@ -1,10 +1,10 @@
 <template>
   <li class="guild-item-wrapper"
-    :class="selected ? 'selected' : ''"
+    :class="selectClass"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave">
     <div class="guild-select-wrapper">
-      <span class="guild-select-indicator"></span>
+      <span class="guild-select-indicator" :class="selectClass"></span>
     </div>
     <div class="guild-container">
       <nuxt-link :to="to">
@@ -23,7 +23,15 @@ export default {
   },
   computed: {
     selected() {
-      return (this.guild && this.guild.id === this.$route.params.guild) || this.hover;
+      const selectedGuild = this.$route.params.guild;
+      return (!this.guild && !selectedGuild) || (this.guild && this.guild.id === selectedGuild);
+    },
+    selectClass() {
+      return this.selected
+        ? 'selected'
+        : this.hover
+          ? 'hover'
+          : '';
     }
   },
   methods: {
@@ -55,8 +63,7 @@ export default {
     justify-content: flex-start;
   }
   .guild-select-indicator {
-    opacity: 1;
-    height: 48px;
+    opacity: 0;
     transform: translate3d(0px, 0px, 0px);
     position: absolute;
     width: 4px;
@@ -65,6 +72,15 @@ export default {
     margin-left: -4px;
     outline: 0;
     margin: 0; padding: 0; border: 0;
+    transform: translate3d(0px, 0px, 0px);
+  }
+  .guild-select-indicator.selected {
+    height: 40px;
+    opacity: 1;
+  }
+  .guild-select-indicator.hover {
+    height: 8px;
+    opacity: 0.7;
   }
   .guild-container {
     width: 48px; height: 48px;
