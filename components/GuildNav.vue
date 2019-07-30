@@ -28,10 +28,6 @@ export default {
   },
   computed: {
     guildId() {
-      const id = this.$route.params.guild;
-      this.guilds.forEach(guild => {
-        console.log(guild.id, id, guild.id === id);
-      })
       return this.$route.params.guild;
     }
   }

@@ -1,17 +1,14 @@
 <template>
   <div>
-    <nuxt-child />
+    {{ this.directory.name }}
   </div>
 </template>
 <script>
 export default {
-  mounted() {
-    console.log('mounted');
-  }
+  props: ['directory']
 }
 </script>
 
 <style scoped>
 
 </style>
-
