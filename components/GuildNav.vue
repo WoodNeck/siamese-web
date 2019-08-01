@@ -37,19 +37,13 @@ export default {
   .guild-nav-wrapper {
     height: 100%;
     background-color: #202225;
-    display: flex;
     padding: 8px 0 0 0;
     width: 72px;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
     position: relative;
     contain: layout style;
     vertical-align: baseline;
     margin: 0; border: 0;
+    overflow-x: hidden;
   }
   .guild-item-wrapper {
     position: relative;

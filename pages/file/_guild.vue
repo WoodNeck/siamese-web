@@ -1,13 +1,15 @@
 <template>
   <div>
-    <nuxt-child />
+    <nuxt-child :key="this.guildId" />
   </div>
 </template>
 <script>
 export default {
-  mounted() {
-    console.log('mounted');
-  }
+  computed: {
+    guildId() {
+      return this.$route.params.guild;
+    }
+  },
 }
 </script>
 

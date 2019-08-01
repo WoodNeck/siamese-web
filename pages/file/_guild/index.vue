@@ -1,9 +1,10 @@
 <template>
   <FileContainer>
-    <FileAddButton :isRoot="true" />
+    <FileAddButton :isRoot="true" @change="fetchDirectories" />
     <FileDirectory v-for="directory in directories"
       :key="directory.id"
-      :directory="directory" />
+      :directory="directory"
+      :to="`/file/${guildId}/${directory._id}`" />
   </FileContainer>
 </template>
 <script>
@@ -24,7 +25,6 @@ export default {
     FileDirectory
   },
   mounted() {
-    console.log('마운트');
     this.fetchDirectories();
   },
   computed: {

@@ -1,14 +1,43 @@
 <template>
-  <div>
-    {{ this.directory.name }}
-  </div>
+  <nuxt-link :to="to" class="file-item directory-wrapper">
+    <svg class="directory-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	    viewBox="0 0 481.2 481.2" style="enable-background:new 0 0 481.2 481.2;" xml:space="preserve">
+      <path fill="currentColor" d="M403.9,97.85h-114c-27.7,0-50.3-22.5-50.3-50.3c0-7.5-6-13.5-13.5-13.5H77.3c-42.6,0-77.3,34.7-77.3,77.3v258.5
+        c0,42.6,34.7,77.3,77.3,77.3h326.6c42.6,0,77.3-34.7,77.3-77.3v-194.8C481.2,132.45,446.5,97.85,403.9,97.85z M454.2,369.75
+        c0,27.7-22.5,50.3-50.3,50.3H77.3c-27.7,0-50.3-22.5-50.3-50.3v-258.4c0-27.7,22.5-50.3,50.3-50.3h136.5
+        c6.4,36.2,38.1,63.8,76.1,63.8h114c27.7,0,50.3,22.5,50.3,50.3L454.2,369.75L454.2,369.75z"/>
+    </svg>
+    <span class="directory-title">{{ this.directory.name }}</span>
+  </nuxt-link>
 </template>
 <script>
 export default {
-  props: ['directory']
+  props: ['directory', 'to']
 }
 </script>
 
 <style scoped>
-
+  .directory-wrapper {
+    border-radius: 24px;
+    flex-direction: column;
+    padding: 0; outline: 0; border: 0;
+    background: transparent;
+    color: #43b581;
+    text-decoration: none;
+    transition: color .15s ease-out, background-color .15s ease-out;
+  }
+  .directory-wrapper:hover {
+    background: #43b581;
+    color: white;
+  }
+  .directory-icon {
+    width: 64px;
+    height: 64px;
+  }
+  .directory-title {
+    font-size: 1.3rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
+    color: whitesmoke;
+  }
 </style>

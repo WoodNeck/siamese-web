@@ -55,7 +55,9 @@ export default {
   font-size: 16px;
   line-height: 20px;
   cursor: default;
-  margin: 0; padding: 0; border: 0;
+  padding: 0; border: 0;
+  margin: 0;
+  margin-bottom: 4px;
 }
 .header-icon-wrapper {
   color: #72767d;

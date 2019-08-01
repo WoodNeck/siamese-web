@@ -1,5 +1,5 @@
 <template>
-  <div class="button-wrapper" @click="isRoot ? openAddDialogue() : openAddFile()">
+  <div class="file-item button-wrapper" @click="isRoot ? openAddDialogue() : openAddFile()">
     <svg width="48" height="48" viewBox="0 0 48 48">
       <path fill="currentColor" d="M42 22.001H26V6.00196H22V22.002H6V26.002H22V42.002H26V26.002H42V22.002Z"></path>
     </svg>
@@ -30,6 +30,9 @@ export default {
         cancelButtonText: '파일',
         confirmButtonColor: '#7289da',
         cancelButtonColor: '#369368',
+        customClass: {
+          title: 'swal-title',
+        }
       }).then(result => {
         const isDirectory = Boolean(result.value);
         const isFile = Boolean(result.dismiss) && result.dismiss === 'cancel';
@@ -42,7 +45,10 @@ export default {
     },
     openAddFile() {
       this.$swal({
-        title: '파일 추가'
+        title: '파일 추가',
+        customClass: {
+          title: 'swal-title',
+        }
       });
     },
     async openAddDirectory() {
@@ -60,11 +66,15 @@ export default {
           } else if (/\s/.exec(name) != null) {
             return '폴더명에는 공백이 들어갈 수 없습니다!';
           }
+        },
+        customClass: {
+          title: 'swal-title',
         }
       });
 
-      dirName = dirName.trim();
       if (!dirName) return;
+
+      dirName = dirName.trim();
 
       const data = qs.stringify({
         name: dirName,
@@ -79,20 +89,22 @@ export default {
       }).then(e => {
         this.$swal.fire({
           title: `${dirName}을(를) 추가했습니다!`,
-          type: 'success'
+          type: 'success',
+          customClass: {
+            title: 'swal-title',
+          }
         });
+        this.$emit('change');
       })
       .catch(e => {
         this.$swal.fire({
           title: e.response.data,
           type: 'error',
           customClass: {
-            title: 'swal-error-title',
+            title: 'swal-title',
           }
         });
       });
-
-
     },
     async addDirectory(dirName) {
 
@@ -104,22 +116,12 @@ export default {
   .button-wrapper {
     width: 96px;
     height: 96px;
-    cursor: pointer;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
     color: #43b581;
     background-color: #292b2f;
     border-radius: 64px;
-    margin: 12px;
-    padding: 0; outline: 0; border: 0;
-    -webkit-transition: color .15s ease-out, background-color .15s ease-out, border-radius .15s ease-out;
     transition: color .15s ease-out, background-color .15s ease-out, border-radius .15s ease-out;
   }
   .button-wrapper:hover {
@@ -127,7 +129,18 @@ export default {
     background-color: #43b581;
     border-radius: 24px;
   }
-  .swal-error-title {
+  .swal-title {
     white-space: nowrap;
+    font-size: 1.875rem;
+  }
+  @media screen and (max-width: 400px) {
+    .swal-title {
+      font-size: 1.0rem;
+    }
+  }
+  @media screen and (min-width: 400px) and (max-width: 540px) {
+    .swal-title {
+      font-size: 1.3rem;
+    }
   }
 </style>
