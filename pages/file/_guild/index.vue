@@ -4,7 +4,8 @@
     <FileDirectory v-for="directory in directories"
       :key="directory.id"
       :directory="directory"
-      :to="`/file/${guildId}/${directory._id}`" />
+      :to="`/file/${guildId}/${directory._id}`"
+      @change="fetchDirectories" />
   </FileContainer>
 </template>
 <script>

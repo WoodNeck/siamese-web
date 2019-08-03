@@ -10,10 +10,12 @@
   </FileItem>
 </template>
 <script>
+import Josa from 'josa-js';
 import qs from 'qs';
 import { mapGetters } from 'vuex';
 import FileItem from './FileItem'
 import URL from '../constants/url';
+import HEADER from '~/constants/header';
 
 export default {
   props: ['isRoot'],
@@ -34,6 +36,7 @@ export default {
         title: '어떤걸 추가하실건가요?',
         showConfirmButton: true,
         showCancelButton: true,
+        showCloseButton: true,
         confirmButtonText: '폴더',
         cancelButtonText: '파일',
         confirmButtonColor: '#7289da',
@@ -54,6 +57,7 @@ export default {
     openAddFile() {
       this.$swal({
         title: '파일 추가',
+        showCloseButton: true,
         customClass: {
           title: 'swal-title',
         }
@@ -63,6 +67,7 @@ export default {
       let { value: dirName } = await this.$swal({
         title: '폴더 추가',
         input: 'text',
+        showCloseButton: true,
         inputValidator: (value) => {
           if (!value) {
             return '폴더명을 입력해주세요!';
@@ -92,13 +97,12 @@ export default {
       })
 
       this.$axios.post(URL.DIRECTORY, data, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
+        headers: HEADER.POST,
       }).then(e => {
         this.$swal.fire({
-          title: `${dirName}을(를) 추가했습니다!`,
+          title: `${Josa.r(dirName, '을/를')} 추가했습니다!`,
           type: 'success',
+          showCloseButton: true,
           customClass: {
             title: 'swal-title',
           }
@@ -109,6 +113,7 @@ export default {
         this.$swal.fire({
           title: e.response.data,
           type: 'error',
+          showCloseButton: true,
           customClass: {
             title: 'swal-title',
           }
@@ -135,19 +140,5 @@ export default {
     color: white;
     background-color: #43b581;
     border-radius: 24px;
-  }
-  .swal-title {
-    white-space: nowrap;
-    font-size: 1.875rem;
-  }
-  @media screen and (max-width: 400px) {
-    .swal-title {
-      font-size: 1.0rem;
-    }
-  }
-  @media screen and (min-width: 400px) and (max-width: 540px) {
-    .swal-title {
-      font-size: 1.3rem;
-    }
   }
 </style>

@@ -16,6 +16,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
   },
+  css: [
+    '~/static/common.css'
+  ],
   loading: { color: '#3B8070' },
   build: {
     extend (config, { isDev, isClient }) {
@@ -29,7 +32,14 @@ module.exports = {
       }
     }
   },
-  modules: ['nuxt-oauth', '@nuxtjs/axios', 'vue-sweetalert2/nuxt'],
+  plugins: ['~/plugins/helper'],
+  modules: [
+    'nuxt-oauth',
+    '@nuxtjs/axios',
+    [
+      'vue-sweetalert2/nuxt'
+    ]
+  ],
   oauth: {
     sessionName: 'discord-session',
     secretKey: process.env.SECRET_KEY,

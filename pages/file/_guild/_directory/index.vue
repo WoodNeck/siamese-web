@@ -1,7 +1,9 @@
 <template>
   <FileContainer>
     <FileAddButton :isRoot="false" />
-    <FileImage v-for="image in this.images" :key="image.id" :image="image" />
+    <FileImage v-for="image in this.images" :key="image.id"
+      :image="image"
+      @change="fetchDirectory" />
   </FileContainer>
 </template>
 <script>
