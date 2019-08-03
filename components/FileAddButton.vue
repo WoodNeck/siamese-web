@@ -1,17 +1,25 @@
 <template>
-  <div class="file-item button-wrapper" @click="isRoot ? openAddDialogue() : openAddFile()">
-    <svg width="48" height="48" viewBox="0 0 48 48">
-      <path fill="currentColor" d="M42 22.001H26V6.00196H22V22.002H6V26.002H22V42.002H26V26.002H42V22.002Z"></path>
-    </svg>
-  </div>
+  <FileItem>
+    <template v-slot:file-image>
+      <div class="button-wrapper" @click="isRoot ? openAddDialogue() : openAddFile()">
+        <svg width="50%" height="50%" viewBox="0 0 48 48">
+          <path fill="currentColor" d="M42 22.001H26V6.00196H22V22.002H6V26.002H22V42.002H26V26.002H42V22.002Z"></path>
+        </svg>
+      </div>
+    </template>
+  </FileItem>
 </template>
 <script>
 import qs from 'qs';
 import { mapGetters } from 'vuex';
+import FileItem from './FileItem'
 import URL from '../constants/url';
 
 export default {
   props: ['isRoot'],
+  components: {
+    FileItem
+  },
   computed: {
     ...mapGetters({
       userId: 'userId'
@@ -73,9 +81,10 @@ export default {
       });
 
       if (!dirName) return;
-
       dirName = dirName.trim();
-
+      this.addDirectory(dirName);
+    },
+    async addDirectory(dirName) {
       const data = qs.stringify({
         name: dirName,
         guild: this.guildId,
@@ -105,20 +114,18 @@ export default {
           }
         });
       });
-    },
-    async addDirectory(dirName) {
-
     }
   }
 }
 </script>
 <style>
   .button-wrapper {
-    width: 96px;
-    height: 96px;
+    position: absolute;
+    top: 16.6666%; bottom: -16.6666%; left: 0; right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     color: #43b581;
     background-color: #292b2f;
     border-radius: 64px;

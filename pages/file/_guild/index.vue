@@ -34,9 +34,11 @@ export default {
   },
   methods: {
     async fetchDirectories() {
-      this.directories = await this.$axios.$get(URL.DIRECTORY, {
+      const directories = await this.$axios.$get(URL.DIRECTORIES, {
         params: { id: this.guildId }
       });
+
+      this.directories = directories;
     }
   }
 }

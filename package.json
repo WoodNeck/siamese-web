@@ -21,7 +21,8 @@
     "nuxt": "^2.0.0",
     "nuxt-oauth": "2.1.1",
     "qs": "^6.7.0",
-    "vue-sweetalert2": "^2.1.1"
+    "vue-sweetalert2": "^2.1.1",
+    "vue-upload-component": "^2.8.20"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

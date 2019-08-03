@@ -72,14 +72,14 @@ export default {
     margin-left: -4px;
     outline: 0;
     margin: 0; padding: 0; border: 0;
-    transform: translate3d(0px, 0px, 0px);
   }
   .guild-select-indicator.selected {
     height: 40px;
     opacity: 1;
+    transition: height 0.15s ease-out;
   }
   .guild-select-indicator.hover {
-    height: 8px;
+    height: 20px;
     opacity: 0.7;
   }
   .guild-container {

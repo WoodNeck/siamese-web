@@ -6,3 +6,6 @@ export default {
   middleware: 'redirect',
 }
 </script>
+<style>
+
+</style>
