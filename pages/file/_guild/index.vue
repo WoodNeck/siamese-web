@@ -1,45 +1,47 @@
 <template>
   <FileContainer>
-    <FileAddButton :isRoot="true" @change="fetchDirectories" />
+    <FileAddButton :isRoot="true" @change="updateGuild" />
     <FileDirectory v-for="directory in directories"
       :key="directory.id"
       :directory="directory"
       :to="`/file/${guildId}/${directory._id}`"
-      @change="fetchDirectories" />
+      @change="updateGuild" />
+    <FileImage v-for="image in images"
+      :key="image.id"
+      :image="image"
+      @change="updateGuild" />
   </FileContainer>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import FileContainer from '~/components/FileContainer';
 import FileAddButton from '~/components/FileAddButton';
 import FileDirectory from '~/components/FileDirectory';
+import FileImage from '~/components/FileImage';
 import URL from '~/constants/url';
+import { RESET_DIRECTORIES, RESET_IMAGES } from '~/constants/mutation';
+import { UPDATE_GUILD } from '~/constants/action';
 
 export default {
-  data() {
-    return {
-      directories: [],
-    }
+  computed: {
+    ...mapGetters({
+      directories: 'directories',
+      images: 'images',
+    })
   },
   components: {
     FileContainer,
     FileAddButton,
-    FileDirectory
+    FileDirectory,
+    FileImage
   },
-  mounted() {
-    this.fetchDirectories();
-  },
-  computed: {
-    guildId() {
-      return this.$route.params.guild;
-    }
+  beforeDestroy() {
+    this.$store.commit(RESET_DIRECTORIES);
+    this.$store.commit(RESET_IMAGES);
   },
   methods: {
-    async fetchDirectories() {
-      const directories = await this.$axios.$get(URL.DIRECTORIES, {
-        params: { id: this.guildId }
-      });
-
-      this.directories = directories;
+    updateGuild() {
+      this.$store.dispatch(UPDATE_GUILD);
     }
   }
 }

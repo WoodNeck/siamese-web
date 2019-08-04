@@ -1,3 +1,8 @@
-export const SET_GUILDS = "SET_GUILDS";
-export const SET_DIRECTORY = "SET_DIRECTORY";
+export const SET_GUILDS = 'SET_GUILDS';
+export const SET_DIRECTORIES = 'SET_DIRECTORIES';
+export const SET_IMAGES = 'SET_IMAGES';
+export const SET_DIRECTORY = 'SET_DIRECTORY';
+export const RESET_DIRECTORIES = 'RESET_DIRECTORIES';
+export const RESET_IMAGES = 'RESET_IMAGES';
+export const RESET_DIRECTORY = 'RESET_DIRECTORY';
 

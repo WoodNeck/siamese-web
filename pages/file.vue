@@ -5,20 +5,22 @@
       <GuildHeader />
       <nuxt-child class="contents" />
     </div>
+    <FileDragAdd />
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 import GuildNav from '../components/GuildNav';
 import GuildHeader from '../components/GuildHeader';
-import URL from '../constants/url';
-import { SET_GUILDS } from '../constants/mutation';
+import FileDragAdd from '../components/FileDragAdd';
+import * as MUTATION from '../constants/mutation';
+import * as ACTION from '../constants/action';
 
 export default {
   components: {
     GuildNav,
-    GuildHeader
+    GuildHeader,
+    FileDragAdd
   },
   computed: {
     ...mapGetters({
@@ -27,22 +29,33 @@ export default {
       userId: 'userId'
     })
   },
-  mounted() {
+  async mounted() {
     if (!this.$store.getters.logged) {
       this.$login();
     } else {
-      this.fetchGuilds();
+      await this.fetchGuilds();
+      this.doUpdate();
+    }
+  },
+  watch:{
+    $route (to, from){
+      this.doUpdate();
     }
   },
   methods: {
     async fetchGuilds() {
-      const userId = this.userId;
-      const guilds = await this.$axios.$get(URL.GUILDS, {
-        params: { id: userId }
-      });
+      await this.$store.dispatch(ACTION.FETCH_GUILD);
+    },
+    doUpdate() {
+      const guildId = this.guildId;
+      const dirId = this.directoryId;
 
-      this.$store.commit(SET_GUILDS, guilds);
-    }
+      if (guildId && !dirId) {
+        this.$store.dispatch(ACTION.UPDATE_GUILD);
+      } else if (guildId && dirId) {
+        this.$store.dispatch(ACTION.UPDATE_DIRECTORY);
+      }
+    },
   }
 }
 </script>

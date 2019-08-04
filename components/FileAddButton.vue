@@ -94,7 +94,7 @@ export default {
         name: dirName,
         guild: this.guildId,
         user: this.userId,
-      })
+      });
 
       this.$axios.post(URL.DIRECTORY, data, {
         headers: HEADER.POST,

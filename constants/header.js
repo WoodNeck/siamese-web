@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   POST: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },

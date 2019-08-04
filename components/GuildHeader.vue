@@ -76,6 +76,7 @@ export default {
   padding: 0; border: 0;
   margin: 0;
   margin-bottom: 4px;
+  z-index: 0;
 }
 .header-icon-wrapper {
   color: #72767d;

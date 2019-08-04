@@ -19,6 +19,9 @@ module.exports = {
   css: [
     '~/static/common.css'
   ],
+  env: {
+    im: process.env.IMGUR_CLIENT_ID,
+  },
   loading: { color: '#3B8070' },
   build: {
     extend (config, { isDev, isClient }) {

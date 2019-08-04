@@ -4,5 +4,7 @@ export default {
   GUILDS: 'guilds',
   DIRECTORY: 'directory',
   DIRECTORIES: 'directories',
-  IMAGE: 'image'
+  IMAGE: 'image',
+  IMAGES: 'images',
+  IMGUR: 'https://api.imgur.com/3/image',
 };

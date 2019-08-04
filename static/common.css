@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Whitney';
+  src: url(/Whitney-Medium.ttf);
+}
+
 .swal2-title {
   font-size: 1.875rem !important;
   word-break: keep-all;

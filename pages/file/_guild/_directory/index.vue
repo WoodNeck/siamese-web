@@ -3,7 +3,7 @@
     <FileAddButton :isRoot="false" />
     <FileImage v-for="image in this.images" :key="image.id"
       :image="image"
-      @change="fetchDirectory" />
+      @change="updateDirectory" />
   </FileContainer>
 </template>
 <script>
@@ -11,8 +11,8 @@ import { mapGetters } from 'vuex';
 import FileContainer from '~/components/FileContainer';
 import FileAddButton from '~/components/FileAddButton';
 import FileImage from '~/components/FileImage';
-import URL from '~/constants/url';
-import { SET_DIRECTORY } from '~/constants/mutation';
+import { RESET_DIRECTORY } from '~/constants/mutation';
+import { UPDATE_DIRECTORY } from '~/constants/action';
 
 export default {
   components: {
@@ -24,27 +24,16 @@ export default {
     ...mapGetters({
       directory: 'directory',
     }),
-    directoryId() {
-      return this.$route.params.directory;
-    },
     images() {
-      return this.directory.images || [];
+      return (this.directory && this.directory.images) || [];
     }
   },
-  mounted() {
-    this.fetchDirectory();
-  },
   beforeDestroy() {
-    this.$store.commit(SET_DIRECTORY, {});
+    this.$store.commit(RESET_DIRECTORY);
   },
   methods: {
-    async fetchDirectory() {
-      const directoryId = this.directoryId
-      const directory = await this.$axios.$get(URL.DIRECTORY, {
-        params: { id: directoryId }
-      });
-
-      this.$store.commit(SET_DIRECTORY, directory);
+    updateDirectory() {
+      this.$store.dispatch(UPDATE_DIRECTORY);
     }
   }
 }
