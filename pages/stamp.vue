@@ -5,7 +5,7 @@
       <GuildHeader />
       <nuxt-child class="contents" />
     </div>
-    <FileDragAdd />
+    <FileDragAdd v-if="this.currentGuild && this.currentGuild.hasPermission" />
   </div>
 </template>
 <script>
@@ -27,7 +27,10 @@ export default {
       guilds: 'guilds',
       logged: 'logged',
       userId: 'userId'
-    })
+    }),
+    currentGuild() {
+      return this.guilds.find(guild => guild.id === this.guildId);
+    }
   },
   async mounted() {
     if (!this.$store.getters.logged) {
@@ -94,6 +97,29 @@ export default {
   min-height: 0;
   outline: 0; margin: 0;
   padding: 5px;
+  overflow-y: auto;
+}
+.contents::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+.contents::-webkit-scrollbar-thumb, .contents::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 7px;
+}
+.contents::-webkit-scrollbar-track {
+  border-width: initial;
+  background-color: #2f3136;
+  border-color: transparent;
+}
+.contents::-webkit-scrollbar-thumb {
+  border-color: #36393f;
+  background-color: #202225;
+}
+.contents::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 </style>
 

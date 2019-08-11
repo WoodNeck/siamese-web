@@ -100,21 +100,36 @@ export default {
             headers: HEADER.POST
           }).then(() => {
             success += 1;
-          }).catch(() => {
+          }).catch(e => {
             failed.push({
               file: newFile,
               name: fileName,
+              reason: e.response.data
             });
           });
-        }).catch(() => {
+        }).catch(e => {
           failed.push({
             file: newFile,
             name: fileName,
+            reason: e.response.data
           });
         }).finally(() => {
           processed += 1;
           if (processed === newFiles.length) {
             this.openUploadSuccessModal(success, processed, failed);
+          }
+        });
+      }
+
+      if (processed !== newFiles.length) {
+        this.$swal.fire({
+          title: '업로드중입니다. 잠시만 기다려주세요...',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          showConfirmButton: false,
+          onBeforeOpen: () => {
+            this.$swal.showLoading()
           }
         });
       }
@@ -155,7 +170,8 @@ export default {
       if (failed.length > 0) {
         await this.$swal({
           type: 'error',
-          title: `${failed.length}개 이미지 추가에 실패했습니다.`
+          title: `${failed.length}개 이미지 추가에 실패했습니다.`,
+          text: failed[0].reason
         });
       }
 

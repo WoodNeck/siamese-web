@@ -3,11 +3,6 @@
     <slot></slot>
   </div>
 </template>
-<script>
-export default {
-
-}
-</script>
 <style scoped>
   .file-container {
     width: 100%;

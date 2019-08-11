@@ -66,17 +66,17 @@ export default {
     opacity: 0;
     transform: translate3d(0px, 0px, 0px);
     position: absolute;
-    width: 4px;
+    width: 4px; height: 0px;
     background-color: #fff;
     border-radius: 0 4px 4px 0;
     margin-left: -4px;
     outline: 0;
     margin: 0; padding: 0; border: 0;
+    transition: height 0.15s ease-out, opacity 0.15s ease-out;
   }
   .guild-select-indicator.selected {
     height: 40px;
     opacity: 1;
-    transition: height 0.15s ease-out;
   }
   .guild-select-indicator.hover {
     height: 20px;

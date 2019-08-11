@@ -103,7 +103,7 @@ export default {
   .file-add-modal-background {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;

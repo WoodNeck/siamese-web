@@ -11,6 +11,7 @@ export const state = () => ({
 });
 
 export const getters = {
+  user: state => state.discord && state.discord.user,
   userId: state => state.discord && state.discord.user && state.discord.user.id,
   guilds: state => state.guilds,
   directories: state => state.directories,

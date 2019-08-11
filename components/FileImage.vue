@@ -1,7 +1,8 @@
 <template>
   <FileItem>
     <template v-slot:file-image>
-      <div class="file-image-wrapper" @click="showNameChangeDialogue">
+      <div class="file-image-wrapper" :class="{selected, dragged}" @click="toggleSelected"
+        :draggable="canDrag || selected" @dragstart="dragstart" @dragend="dragend">
         <img class="file-image" :src="image.url" />
       </div>
     </template>
@@ -21,9 +22,15 @@ import URL from '~/constants/url';
 import HEADER from '~/constants/header';
 
 export default {
-  props: ['image'],
+  props: ['image', 'canDrag'],
   components: {
     FileItem
+  },
+  data() {
+    return {
+      selected: false,
+      dragged: false,
+    }
   },
   computed: {
     ...mapGetters({
@@ -31,6 +38,27 @@ export default {
     })
   },
   methods: {
+    toggleSelected(e) {
+      this.selected = !this.selected;
+      if (this.selected) {
+        this.$emit('selected', this);
+      } else {
+        this.$emit('deselected', this);
+      }
+    },
+    toggleDragged() {
+      this.dragged = !this.dragged;
+    },
+    resetState() {
+      this.selected = false;
+      this.dragged = false;
+    },
+    dragstart(e) {
+      this.$emit('drag-start', e, this.image);
+    },
+    dragend(e) {
+      this.$emit('drag-end');
+    },
     showNameChangeDialogue() {
       this.$swal.fire({
         imageUrl: this.image.url,
@@ -143,16 +171,24 @@ export default {
 </script>
 <style scoped>
   .file-image-wrapper {
+    box-sizing: content-box;
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
-    border: 0.2rem solid white;
-    border-radius: 0.1rem;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .file-image {
+    box-sizing: content-box;
     width: 100%; height: 100%;
-    box-sizing: border-box;
     pointer-events: none;
+  }
+  .file-image-wrapper.dragged {
+    opacity: 0.5;
+  }
+  .file-image-wrapper.selected .file-image {
+    border: 0.2rem solid #43b581;
   }
   .file-image-caption {
     width: 100%;

@@ -1,22 +1,18 @@
 <template>
   <div class="file-item">
-    <div class="file-image-wrapper">
+    <div class="file-image-container">
       <div class="file-container">
         <slot name="file-image"></slot>
       </div>
     </div>
-    <div class="file-caption-wrapper">
+    <div class="file-caption-container">
       <div class="file-caption">
         <slot name="file-caption"></slot>
       </div>
     </div>
+    <slot></slot>
   </div>
 </template>
-<script>
-export default {
-
-}
-</script>
 <style scoped>
   .file-item {
     width: 96px;
@@ -55,12 +51,12 @@ export default {
     width: 100%;
     padding-top: 100%;
   }
-  .file-image-wrapper {
+  .file-image-container {
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
     margin: 0; padding: 0; outline: 0; border: 0;
   }
-  .file-caption-wrapper {
+  .file-caption-container {
     position: relative;
     width: 100%;
     padding-top: 5px;
