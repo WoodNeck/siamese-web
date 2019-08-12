@@ -17,6 +17,7 @@ import * as MUTATION from '../constants/mutation';
 import * as ACTION from '../constants/action';
 
 export default {
+  authenticated: true,
   components: {
     GuildNav,
     GuildHeader,
@@ -33,12 +34,8 @@ export default {
     }
   },
   async mounted() {
-    if (!this.$store.getters.logged) {
-      this.$login();
-    } else {
-      await this.fetchGuilds();
-      this.doUpdate();
-    }
+    await this.fetchGuilds();
+    this.doUpdate();
   },
   watch:{
     $route (to, from){
