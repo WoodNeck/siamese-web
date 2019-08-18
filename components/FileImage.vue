@@ -3,7 +3,7 @@
     <template v-slot:file-image>
       <div class="file-image-wrapper" :class="{selected, dragged}" @click="toggleSelected"
         :draggable="canDrag || selected" @dragstart="dragstart" @dragend="dragend">
-        <img class="file-image" :src="image.url" />
+        <img class="file-image" :src="thumbnail" />
       </div>
     </template>
     <template v-slot:file-caption>
@@ -35,7 +35,14 @@ export default {
   computed: {
     ...mapGetters({
       userId: 'userId',
-    })
+    }),
+    thumbnail() {
+      if (!this.image) return '';
+
+      const splitted = this.image.url.split('.');
+      const extension = splitted.splice(splitted.length - 1, 1);
+      return `${splitted.join('.')}s${extension ? '.' + extension : ''}`;
+    }
   },
   methods: {
     toggleSelected(e) {

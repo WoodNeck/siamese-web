@@ -74,93 +74,98 @@ export default {
     },
     async openAddFile() {
       const addModal = this.$refs.addModal;
-      this.$swal({
+      let newFiles = [];
+      const { dismiss } = await this.$swal({
         title: '이미지 추가',
         html: '<div class="filebox"><input type="file" id="swal-file-input" class="file-input" multiple accept="image/*"></div>',
         showCloseButton: true,
-        onClose: async () => {
-          const newFiles = document.getElementById('swal-file-input').files;
-          if (!newFiles.length) return;
-
-          for (const newFile of newFiles) {
-            newFile.blob = ''
-            let URL = window.URL || window.webkitURL
-            if (URL && URL.createObjectURL) {
-              newFile.blob = URL.createObjectURL(newFile);
-            }
-          }
-
-          let success = 0;
-          let processed = 0;
-          const failed = [];
-          for (const newFile of newFiles) {
-            const fileName = await addModal.open(newFile);
-            if (!fileName) {
-              processed += 1;
-              if (processed === newFiles.length) {
-                this.openUploadSuccessModal(success, processed, failed);
-              }
-              continue;
-            }
-
-            const formData = new FormData();
-            formData.append('image', newFile);
-            formData.append('type', 'file');
-
-            this.$axios.$post(URL.IMGUR, formData, {
-              headers: {
-                Accept: 'application/json',
-                Authorization: `Client-ID ${this.$store.state.im}`,
-                'content-type': 'multipart/form-data',
-              },
-            }).then(async response => {
-              const data = qs.stringify({
-                guild: this.guildId,
-                user: this.userId,
-                name: fileName,
-                url: response.data.link,
-                directory: this.directoryId,
-              });
-
-              await this.$axios.$post(URL.IMAGE, data, {
-                headers: HEADER.POST
-              }).then(() => {
-                success += 1;
-              }).catch(e => {
-                failed.push({
-                  file: newFile,
-                  name: fileName,
-                  reason: e.reaponse.data
-                });
-              });
-            }).catch(() => {
-              failed.push({
-                file: newFile,
-                name: fileName,
-                reason: e.reaponse.data
-              });
-            }).finally(() => {
-              processed += 1;
-              if (processed === newFiles.length) {
-                this.openUploadSuccessModal(success, processed, failed);
-              }
-            });
-          }
-
-          if (processed !== newFiles.length) {
-            this.$swal.fire({
-              title: '업로드중입니다. 잠시만 기다려주세요...',
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              allowEnterKey: false,
-              showConfirmButton: false,
-              onBeforeOpen: () => {
-                this.$swal.showLoading()
-              }
-            });
-          }
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        onClose: async (reason) => {
+          newFiles = document.getElementById('swal-file-input').files;
         }
       });
+
+      if (!dismiss) return;
+      if (!newFiles.length) return;
+      for (const newFile of newFiles) {
+        newFile.blob = ''
+        let URL = window.URL || window.webkitURL
+        if (URL && URL.createObjectURL) {
+          newFile.blob = URL.createObjectURL(newFile);
+        }
+      }
+
+      let success = 0;
+      let processed = 0;
+      const failed = [];
+      for (const newFile of newFiles) {
+        const fileName = await addModal.open(newFile);
+        if (!fileName) {
+          processed += 1;
+          if (processed === newFiles.length) {
+            this.openUploadSuccessModal(success, processed, failed);
+          }
+          continue;
+        }
+
+        const formData = new FormData();
+        formData.append('image', newFile);
+        formData.append('type', 'file');
+
+        this.$axios.$post(URL.IMGUR, formData, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Client-ID ${this.$store.state.im}`,
+            'content-type': 'multipart/form-data',
+          },
+        }).then(async response => {
+          const data = qs.stringify({
+            guild: this.guildId,
+            user: this.userId,
+            name: fileName,
+            url: response.data.link,
+            directory: this.directoryId,
+          });
+
+          await this.$axios.$post(URL.IMAGE, data, {
+            headers: HEADER.POST
+          }).then(() => {
+            success += 1;
+          }).catch(e => {
+            failed.push({
+              file: newFile,
+              name: fileName,
+              reason: e.response.data
+            });
+          });
+        }).catch(e => {
+          failed.push({
+            file: newFile,
+            name: fileName,
+            reason: (e.response && e.response.data.data.error.message) || e.message
+          });
+        }).finally(() => {
+          processed += 1;
+          if (processed === newFiles.length) {
+            this.openUploadSuccessModal(success, processed, failed);
+          }
+        });
+      }
+
+      if (processed !== newFiles.length) {
+        this.$swal.fire({
+          title: '업로드중입니다. 잠시만 기다려주세요...',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          showConfirmButton: false,
+          onBeforeOpen: () => {
+            this.$swal.showLoading()
+          }
+        });
+      }
     },
     async openAddDirectory() {
       let { value: dirName } = await this.$swal({

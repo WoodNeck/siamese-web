@@ -6,7 +6,7 @@
 
 <style>
   body {
-    font-family: Whitney, "Apple SD Gothic Neo", NanumBarunGothic, "맑은 고딕", "Malgun Gothic", Gulim, 굴림, Dotum, 돋움, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: NanumSquareRound, "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", Gulim, 굴림, Dotum, 돋움, "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     margin: 0; padding: 0; border: 0;
     overflow: hidden;

@@ -1,6 +1,8 @@
 <template>
   <FileContainer>
-    <FileAddButton :isRoot="false"
+    <FileAddButton
+      v-if="this.guild && this.guild.hasPermission"
+      :isRoot="false"
       :dragging="dragging"
       @change="updateDirectory" />
     <FileImage v-for="(image, idx) in images"
@@ -46,9 +48,13 @@ export default {
   computed: {
     ...mapGetters({
       directory: 'directory',
+      guilds: 'guilds',
     }),
     images() {
       return (this.directory && this.directory.images) || [];
+    },
+    guild() {
+      return this.guilds.find(guild => guild.id === this.guildId);
     }
   },
   beforeDestroy() {

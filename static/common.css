@@ -1,6 +1,8 @@
 @font-face {
-  font-family: 'Whitney';
-  src: url(/Whitney-Medium.ttf);
+  font-family: 'NanumSquareRound';
+  src: url(/NanumSquareRoundR.woff2) format('woff2');
+  src: url(/NanumSquareRoundR.woff) format('woff');
+  src: url(/NanumSquareRoundR.ttf);
 }
 
 .swal2-title {
