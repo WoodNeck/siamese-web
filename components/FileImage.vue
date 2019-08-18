@@ -110,6 +110,7 @@ export default {
     changeName(fileName) {
       this.$axios.$patch(URL.IMAGE, {
         guild: this.guildId,
+        directory: this.image.dirId,
         user: this.userId,
         image: this.image._id,
         name: fileName
