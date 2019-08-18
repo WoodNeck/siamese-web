@@ -87,7 +87,7 @@ export default {
         }
       });
 
-      if (!dismiss) return;
+      if (dismiss) return;
       if (!newFiles.length) return;
       for (const newFile of newFiles) {
         newFile.blob = ''

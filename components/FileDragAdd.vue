@@ -140,7 +140,7 @@ export default {
       if (!this.filter.success) return;
 
       let failed = false;
-      if (!/\.(jpeg|jpe|jpg|gif|png|apng|tiff|)$/i.test(newFile.name)) {
+      if (!/\.(jpeg|jpe|jpg|gif|png|apng|tiff)$/i.test(newFile.name)) {
         this.filter.success = false;
         this.filter.title = '올바르지 않은 파일 형식';
         this.filter.reason = '흠... 우리가 지원하지 않는 파일 형식 같네요.';
