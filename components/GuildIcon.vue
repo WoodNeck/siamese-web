@@ -7,7 +7,7 @@
       <span class="guild-select-indicator" :class="selectClass"></span>
     </div>
     <div class="guild-container">
-      <nuxt-link :to="to">
+      <nuxt-link :to="to" draggable="false">
         <slot></slot>
       </nuxt-link>
     </div>

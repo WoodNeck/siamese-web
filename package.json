@@ -19,6 +19,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "josa-js": "^0.0.2",
+    "mobile-drag-drop": "^2.3.0-rc.2",
     "mongoose": "^5.6.7",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",

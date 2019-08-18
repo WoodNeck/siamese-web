@@ -2,7 +2,7 @@
   <div v-if="dragging" class="drag-delete-container">
     <div class="drag-delete-wrapper" :class="{hover}"
       @dragover.prevent @drop="handleDrop"
-      @dragenter="toggleDrag" @dragleave="toggleDrag">
+      @dragenter.prevent="toggleDrag" @dragleave="toggleDrag">
       <fa-layers full-width class="fa-4x">
         <fa :icon="['fas', 'trash-alt']" transform="shrink-2" />
       </fa-layers>
@@ -88,13 +88,14 @@ export default {
     position: absolute;
     width: 100%;
     height: 96px;
-    bottom: 2%;
+    bottom: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .drag-delete-wrapper {
     width: 288px;
+    max-width: 80%;
     height: 96px;
     display: flex;
     align-items: center;

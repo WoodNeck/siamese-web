@@ -14,7 +14,7 @@
 
     <GuildIcon v-for="guild in guilds" :guild="guild"
       :to="`/stamp/${guild.id}`" :key="guild.id">
-      <img class="guild-image" :src="guild.iconURL" />
+      <img class="guild-image" :src="guild.iconURL" draggable="false" />
     </GuildIcon>
   </ul>
 </template>

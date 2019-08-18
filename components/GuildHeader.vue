@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-icon-wrapper">
-      <nuxt-link v-if="this.directory && this.directory.name" :to="`/stamp/${guildId}`">
+      <nuxt-link v-if="this.directory && this.directory.name" :to="`/stamp/${guildId}`" draggable="false">
         <fa class="header-icon" :icon="['fas', 'arrow-left']" />
       </nuxt-link>
       <svg v-else width="24" height="24" viewBox="0 0 24 24" class="header-icon">
@@ -9,7 +9,7 @@
       </svg>
     </div>
     <h3 class="header-title" v-if="this.directory && this.directory.name">
-      <nuxt-link :to="`/stamp/${guildId}`" class="header-link">
+      <nuxt-link :to="`/stamp/${guildId}`" class="header-link" draggable="false">
         <span class="header-title-guild">
           {{ this.header }}
         </span>

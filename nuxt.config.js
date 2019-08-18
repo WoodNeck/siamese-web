@@ -35,7 +35,10 @@ module.exports = {
       }
     }
   },
-  plugins: ['~/plugins/helper'],
+  plugins: [
+    '~/plugins/helper',
+    { src: '~/plugins/no-ssr', ssr: false }
+  ],
   modules: [
     'nuxt-oauth',
     '@nuxtjs/axios',
